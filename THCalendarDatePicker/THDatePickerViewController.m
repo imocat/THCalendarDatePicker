@@ -10,9 +10,8 @@
 #import "THDatePickerViewController.h"
 #import "NSDate+Difference.h"
 
-#ifdef DEBUG
-//static int FIRST_WEEKDAY = 2;
-#endif
+// 每周从星期一开始
+static int FIRST_WEEKDAY = 2;
 
 @interface THDatePickerViewController () {
     int _weeksOnCalendar;
@@ -329,7 +328,7 @@
         int curX = (fullSize.width - 7*dayWidth)/2;
         NSDateComponents * comps = [_calendar components:NSCalendarUnitDay fromDate:[NSDate date]];
         NSCalendar *c = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-        [comps setDay:[c firstWeekday]-1];
+        [comps setDay:c.firstWeekday];
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         NSDateComponents *offsetComponents = [[NSDateComponents alloc] init];
         [offsetComponents setDay:1];
@@ -410,9 +409,7 @@
 - (void)storeDateInformation{
     NSDateComponents *comps = [_calendar components:NSCalendarUnitWeekday | NSCalendarUnitDay fromDate:self.firstOfCurrentMonth];
     NSCalendar *c = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-#ifdef DEBUG
-    //[c setFirstWeekday:FIRST_WEEKDAY];
-#endif
+    [c setFirstWeekday:FIRST_WEEKDAY];
     NSRange days = [c rangeOfUnit:NSCalendarUnitDay
                            inUnit:NSCalendarUnitMonth
                           forDate:self.firstOfCurrentMonth];
